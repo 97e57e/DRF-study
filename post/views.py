@@ -10,10 +10,27 @@ from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework import mixins
 
+from django.http import HttpResponse
+from rest_framework import renderers
+from rest_framework.decorators import action
+
 # CBV
+# class PostViewSet(viewsets.ModelViewSet):
+#     queryset = Post.objects.all()
+#     serializer_class = PostSerializer
+
+# ReadOnlyModelViewSet
+# class PostViewSet(viewsets.ReadOnlyModelViewSet):
+#     queryset = Post.objects.all()
+#     serializer_class = PostSerializer
+
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+    @action(detail=True, renderer_classes=[renderers.StaticHTMLRenderer])
+    def highlight(self, request, *args, **kwargs):
+        return HttpResponse("얍")
 
 class PostList(generics.ListCreateAPIView):
     queryset = Post.objects.all()
