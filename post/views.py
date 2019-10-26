@@ -2,17 +2,22 @@ from rest_framework import viewsets
 from .models import Post
 from .serializer import PostSerializer
 
+#API View 
 from django.http import Http404
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 
+#Mixins
 from rest_framework import generics
 from rest_framework import mixins
 
+#ViewSet
 from django.http import HttpResponse
 from rest_framework import renderers
 from rest_framework.decorators import action
+
+from post.pagination import MyPagination
 
 # CBV
 # class PostViewSet(viewsets.ModelViewSet):
@@ -25,8 +30,9 @@ from rest_framework.decorators import action
 #     serializer_class = PostSerializer
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().order_by('-id')
     serializer_class = PostSerializer
+    pagination_class = MyPagination
 
     @action(detail=True, renderer_classes=[renderers.StaticHTMLRenderer])
     def highlight(self, request, *args, **kwargs):
