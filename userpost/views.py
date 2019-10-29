@@ -22,3 +22,6 @@ class UserPostViewSet(viewsets.ModelViewSet):
             qs = qs.none()
 
         return qs
+    
+    def perform_create(self,serializer):
+        serializer.save(author=self.request.user)
